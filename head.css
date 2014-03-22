@@ -1,0 +1,45 @@
+/* 
+    Document   : head
+    Created on : Jun 1, 2013, 4:55:38 PM
+    Author     : aman.aniket
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+root { 
+    display: block;
+}
+#options
+            {
+                background-color: cadetblue;
+                height: 30px;
+            }
+        .opt:hover
+             {
+                
+                color:midnightblue;
+                cursor: pointer;
+             }
+            #img
+            {
+            width: 50px;
+            height: 25px;
+            }
+            #head {
+            text-align: center;
+            font-family: Georgia, "Times New Roman", Times, serif;
+            font-size: 30px;
+                }
+.opt
+{
+    color:whitesmoke;
+    font-family: Georgia;
+   
+    font-size:21px;
+    margin-left: 5%;
+    margin-right: 5%;
+}

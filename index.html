@@ -1,0 +1,196 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="head.css">
+
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="jquery-1.9.1.js"></script>
+        <style>
+            
+            #save
+            {
+                font-family: Georgia;
+                font-size: 18px;
+            }
+           
+            #but
+            {
+                font-family: Georgia;
+                font-size: 18px;
+            }
+            #topic
+            {
+                font-family: Georgia;
+                font-size: 22px;
+            }
+            #detail
+            {
+                margin-left:100px;
+                height:0px;
+                padding-bottom: 0px;
+            }
+            #A
+            {
+                border-radius: 0.35em;
+                width: 400px;
+                height: 30px;
+                font-size: 15px;
+            
+            }
+            #form
+            {
+                text-align : center;
+                margin-bottom:20px;
+            }
+            #main
+            {
+                font-size: 50px;
+                text-align: center;
+            }
+            #tweet
+            {
+                border-radius: 0.35em;
+                background-color:#b0c4de;
+                text-align: center;
+                font-size: 20px;
+                font-family: Georgia;
+                padding:10px;
+                border:1px solid gray;
+                margin-top:35px;
+                margin-bottom:35px;
+                margin-right:100px;
+                margin-left:100px;
+            }
+            #wait
+            {
+                font-family: Georgia;
+                font-size: 20px;
+                text-align: center;
+            }
+            
+        </style>
+        <script >
+            /*
+            var q = jQuery.url.param("q");
+            document.getElementById("A").value = q;
+            */
+            function save_query()
+            {
+                
+                var now = new Date();
+                var outStr = now.getDate()+'/'+(1+parseInt(now.getMonth()))+'/'+(1900+parseInt(now.getYear()))+'-'+now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
+                query = "save_retweets.php?q="+search()+"&max_id=0&counter=yo&timestamp="+outStr+"&place="+encodeURIComponent("Topic");
+                alert(query);
+                var win=window.open(query, '_blank');
+                win.focus();
+            }
+            $(document).keypress(function(e)
+            {
+                if(e.which ===13)
+                    {
+                        do_search();
+                    }
+            });
+            function search()
+            {
+                
+                var query = encodeURIComponent(document.getElementById("A").value);
+                return query;
+            }
+          </script>
+        <script>
+            
+            
+              
+                //window.location.replace("save_query.php?data="+data);
+                        
+            function do_search()
+            {
+                if (search()==="")
+                    {
+                        return;
+                    }
+                document.getElementById("res").innerHTML="<div id='wait'>Searching.Please Wait</div>";
+                $(document).ready(function()
+                {
+                    var url = 'ajax_search.php?&q=';
+                    url+=search();
+                    /*
+                    $.getJSON(url,function(data)
+                    {
+                          $('#save').show();
+                          document.getElementById("res").innerHTML="";
+                          
+                           $(data.statuses).each(function(index)
+                          {
+                             $('#res').append('<p id="detail">@'+ this.user.name+' at '+this.created_at + '</p><p id="tweet">'+ this.text+'</p>');
+                          }
+                          );
+                          
+                    }
+                    );
+                    */
+                    $.getJSON(url)
+                    .done(function(data)
+                    {
+                           document.getElementById("res").innerHTML="";
+                          if(data.statuses[0].user.name)
+                          {
+                            $('#save').show();
+                          }
+                          
+                          
+                           $(data.statuses).each(function(index)
+                          {
+                             $('#res').append('<p id="detail">@'+ this.user.name+' at '+this.created_at + '</p><p id="tweet">'+ this.text+'</p>');
+                          }
+                          );
+                          
+                    }
+                    )
+                    .fail(function()
+                    {
+                        document.getElementById("res").innerHTML = "<div id='wait'>Connection Error. Refreshing Search..</div>";
+                        do_search();
+                    }
+                    );
+                    
+                }
+                );
+            }
+            
+            </script>
+    </head>
+    <body>
+        <script language="javascript" type="text/javascript" src="head.txt"></script>
+        
+
+       
+         <div id="form">
+             <br><br>
+             <center id="topic">Search for tweets related to a topic on Twitter</center><br>
+            <input type="text" id="A"/><br>
+                <button id ="but" type="button" onclick="do_search();">Go!</button>
+            <button type="button" id ="save" onclick="save_query();">Save Search</button>            
+            <br>
+         </div>
+         <div id="res" ></div>
+         
+         <script>
+             $(document).ready(function()
+             {
+                 $('#save').hide();
+             }  
+             
+             );
+         </script>
+         
+      
+         
+      </body>
+</html>
